@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:13:35 by arvoyer           #+#    #+#             */
-/*   Updated: 2023/11/21 13:57:21 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:05:19 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,24 +106,24 @@ static char	**free_array(char **tab, int max)
 	return (NULL);
 }
 
-#include <stdio.h>
+// #include <stdio.h>
 
-int		main(void)
-{
-	const char		*str = NULL;
-	char			sep;
-	char			**tab;
-	unsigned int	i;
+// int		main(void)
+// {
+// 	const char		*str = NULL;
+// 	char			sep;
+// 	char			**tab;
+// 	unsigned int	i;
 
-	sep = ' ';
-	i = 0;
-	tab = ft_split(str, sep);
-	printf("\n %s", *tab);
-	while (tab[i])
-	{
-		printf("\n%s", tab[i]);
-		i++;
-	}
-	free_array(tab, i);
-	return (0);
-}
+// 	sep = ' ';
+// 	i = 0;
+// 	tab = ft_split(str, sep);
+// 	printf("\n %s", *tab);
+// 	while (tab[i])
+// 	{
+// 		printf("\n%s", tab[i]);
+// 		i++;
+// 	}
+// 	free_array(tab, i);
+// 	return (0);
+// }

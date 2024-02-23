@@ -7,13 +7,16 @@ INCLUDE_DIR = include
 IFLAGS = \
          -I $(INCLUDE_DIR) 
 
+DFLAGS = -MD -MP
+
 SRC = push_swap.c \
       create_chunck.c \
 	  instruction.c \
 	  math.c \
 	  one_arg.c \
 	  sort_tab.c \
-	  utils.c
+	  utils.c \
+	  free.c
 
 BUILD_DIR = .build
 
@@ -35,7 +38,7 @@ $(NAME): $(OBJ)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p .build
-	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) $(IFLAGS) -c $< -o $@
 
 .PHONY: clean
 clean:

@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:04:04 by arvoyer           #+#    #+#             */
-/*   Updated: 2023/12/21 13:21:53 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/02/09 08:36:10 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,16 @@ int	tablen(const char *str)
 	return (len + boolean);
 }
 
-char	**free_array(char **tab, int max)
+int	check_arg(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (i < max)
+	while (s[i])
 	{
-		free(tab[i]);
+		if ((s[i] != ' ' && s[i] != '-') && (s[i] < '0' || s[i] > '9'))
+			return (0);
 		i++;
 	}
-	free(tab);
-	return (NULL);
+	return (1);
 }
