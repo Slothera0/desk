@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 16:51:47 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/01/03 16:46:59 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/02/26 11:19:38 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	push(int *pile_a, int *len_a, int *pile_b, int *len_b)
 	}
 	pile_a[0] = temp;
 	(*len_a)++;
+
 }
 
 void	reverse_rotate(int *pile, int len)

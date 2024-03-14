@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 20:35:11 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/02/23 16:54:40 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/14 07:12:17 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_first_cmd(char *infile, char *cmd, int fd[3], char **envp)
 		error(7, fd, cmd_path, cmd_split);
 	if (dup2(fd[1], 1) == -1)
 		error(7, fd, cmd_path, cmd_split);
-	if (close(fd[1]) == -1)
+	if (close(fd[1]) == -1 || close(fd[2]) == -1)
 		error(3, fd, cmd_path, cmd_split);
 	execve(cmd_path, cmd_split, envp);
 	perror("Error during execve");
@@ -62,7 +62,7 @@ void	exec_second_cmd(char *outfile, char *cmd, int fd[3], char **envp)
 		error(7, fd, cmd_path, cmd_split);
 	if (dup2(fd[0], 0) == -1)
 		error(7, fd, cmd_path, cmd_split);
-	if (close(fd[0]) == -1)
+	if (close(fd[0]) == -1 || close(fd[2]) == -1)
 		error(3, fd, cmd_path, cmd_split);
 	execve(cmd_path, cmd_split, envp);
 	perror("Error during execve");
