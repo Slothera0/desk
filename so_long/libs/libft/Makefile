@@ -38,7 +38,8 @@ ft_substr.c \
 get_next_line.c \
 get_next_line_utils.c \
 ft_arraylen.c \
-ft_strdup_stop.c
+ft_strdup_stop.c \
+ft_free_array.c
 
 SOURCES_BONUS = ft_lstadd_back_bonus.c \
 ft_lstadd_front_bonus.c \

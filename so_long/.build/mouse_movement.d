@@ -1,4 +1,4 @@
-.build/movement.o: src/movement.c /usr/include/stdc-predef.h \
+.build/mouse_movement.o: src/mouse_movement.c /usr/include/stdc-predef.h \
  include/so_long.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \

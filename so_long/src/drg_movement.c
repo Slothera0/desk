@@ -6,14 +6,13 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 05:46:37 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/14 07:02:26 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/15 10:17:11 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "libft.h"
 #include "mlx.h"
-#include "mlx_int.h"
 
 int	move_dragon(t_data *data, int side)
 {
@@ -25,6 +24,7 @@ int	move_dragon(t_data *data, int side)
 		&& (side == LEFT && POS_X % BLOCK < WALK)))
 		return (0);
 	clear_pos(data);
+	mlx_destroy_image(data->mlx, data->texture.dragon[TEXT_USE].img);
 	if (side == RIGHT)
 	{
 		data->pos[0] += WALK;
@@ -47,6 +47,7 @@ int	fly_char(t_data *data)
 		/ BLOCK] == '1') && POS_Y % BLOCK < FLY)
 		return (0);
 	clear_pos(data);
+	mlx_destroy_image(data->mlx, data->texture.dragon[TEXT_USE].img);
 	data->pos[1] -= FLY;
 	change_sprit_drg_fly(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, \
@@ -61,6 +62,7 @@ int	do_gravity(t_data *data)
 		/ BLOCK] == '1') && POS_Y % BLOCK == BLOCK - DRG_H)
 		return (0);
 	clear_pos(data);
+	mlx_destroy_image(data->mlx, data->texture.dragon[TEXT_USE].img);
 	if ((data->map[(POS_Y) / BLOCK + 1][POS_X / BLOCK] == '1' \
 		|| data->map[POS_Y / BLOCK + 1][(POS_X + DRG_W) \
 		/ BLOCK] == '1') && (POS_Y + DRG_H) % BLOCK > BLOCK - WALK)
@@ -75,11 +77,8 @@ int	do_gravity(t_data *data)
 
 void	clear_pos(t_data *data)
 {
-	if (data->map[POS_Y / BLOCK][POS_X / BLOCK] == 'C')
-	{
-		data->map[POS_Y / BLOCK][POS_X / BLOCK] = '0';
-		data->total_coin--;
-	}
+	claim_coin(data);
+	take_portail(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, BACK, (POS_X \
 		/ BLOCK) * BLOCK, (POS_Y / BLOCK) * BLOCK);
 	if ((POS_X / BLOCK) * BLOCK != ((POS_X + DRG_W) / BLOCK) * BLOCK)

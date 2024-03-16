@@ -1,5 +1,5 @@
-.build/movement.o: src/movement.c /usr/include/stdc-predef.h \
- include/so_long.h /usr/include/stdio.h \
+.build/error.o: src/error.c /usr/include/stdc-predef.h include/so_long.h \
+ /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \

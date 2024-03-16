@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:05:55 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/08 03:53:03 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/16 08:31:15 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 size_t	ft_arraylen(char **s);
 char	*ft_strdup_stop(const char *s, char c, int keep_last);
+void	ft_free_array(char **map);
 
 #endif

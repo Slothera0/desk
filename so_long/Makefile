@@ -17,9 +17,13 @@ SRC = main.c \
 parse_map.c \
 print_map.c \
 start_game.c \
-movement.c \
+mouse_movement.c \
 drg_movement_utils.c \
-drg_movement.c
+drg_movement.c \
+claim_coin.c \
+test_map.c \
+error.c \
+init_mouse.c
 
 BUILD_DIR = .build
 

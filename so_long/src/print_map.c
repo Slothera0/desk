@@ -6,39 +6,49 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 21:42:01 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/14 06:43:10 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/16 14:28:09 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "libft.h"
 #include "mlx.h"
-#include "mlx_int.h"
 
-static void	*put_all_block(char c, void *texture, t_data *data);
+void	*put_all_block(char c, void *texture, t_data *data);
 static char	*set_path(char c);
 static void	*set_texture(char *path, t_data *data);
 static void	put_all_sprit(t_data *data);
 
 void	print_map(t_data *data)
 {
-	void	*mlx_win;
 	int		x;
 	int		y;
 
 	data->total_coin = 0;
 	y = ft_arraylen(data->map);
 	x = ft_strlen(data->map[y - 1]);
-	mlx_win = mlx_new_window(data->mlx, x * BLOCK, y * BLOCK, "so_long");
-	data->mlx_win = mlx_win;
+	data->mlx_win = mlx_new_window(data->mlx, x * BLOCK, y * BLOCK, "so_long");
+	if (!data->mlx_win)
+		return ;
 	BACK = set_texture(set_path('0'), data);
-	put_all_block('0', BACK, data);
 	data->texture.wall = set_texture(set_path('1'), data);
+	if (!BACK || !data->texture.wall)
+	{
+		mlx_destroy_window(data->mlx, data->mlx_win);
+		if (BACK)
+			mlx_destroy_image(data->mlx, BACK);
+		if (data->texture.wall)
+			mlx_destroy_image(data->mlx, data->texture.wall);
+		data->mlx_win = NULL;
+		return ;
+	}
+	put_all_block('0', BACK, data);
 	put_all_block('1', data->texture.wall, data);
+	
 	put_all_sprit(data);
 }
 
-static void	*put_all_block(char c, void *texture, t_data *data)
+void	*put_all_block(char c, void *texture, t_data *data)
 {
 	int		i;
 	int		j;
@@ -52,7 +62,7 @@ static void	*put_all_block(char c, void *texture, t_data *data)
 			if (data->map[i][j] == c || c == '0')
 				mlx_put_image_to_window(data->mlx, data->mlx_win,
 					texture, j * BLOCK, i * BLOCK);
-			if (data->map[i][j] == 'C')
+			if (data->map[i][j] == 'C' && c == 'C')
 				data->total_coin++;
 			j++;
 		}
@@ -67,7 +77,7 @@ static void	*set_texture(char *path, t_data *data)
 	void	*img;
 
 	if (!path)
-		error(); // free + message + ratio
+		return (NULL);
 	img = mlx_xpm_file_to_image(data->mlx, path, &(img_size[0]),
 			&(img_size[1]));
 	free(path);
@@ -89,8 +99,6 @@ static char	*set_path(char c)
 		map_path = ft_strdup("./texture_2/char_run1.xpm");
 	if (c == 'P')
 		map_path = ft_strdup("./texture_2/portail.xpm");
-	if (c == 'M')
-		map_path = ft_strdup("./texture/mouse_run1.xpm");
 	return (map_path);
 }
 
@@ -104,9 +112,9 @@ void	set_all_addr(t_texture *texture)
 	texture->dragon[0].addr = mlx_get_data_addr(texture->dragon[0].img, \
 		&texture->dragon[0].bits_per_pixel, \
 		&texture->dragon[0].line_length, &texture->dragon[0].endian);
-	texture->mouse[0].addr = mlx_get_data_addr(texture->mouse[0].img, \
-		&texture->mouse[0].bits_per_pixel, &texture->mouse[0].line_length, \
-		&texture->mouse[0].endian);
+	texture->dragon[1].addr = mlx_get_data_addr(texture->dragon[1].img, \
+		&texture->dragon[1].bits_per_pixel, \
+		&texture->dragon[1].line_length, &texture->dragon[1].endian);
 	texture->diamond.addr = mlx_get_data_addr(texture->diamond.img, \
 		&texture->diamond.bits_per_pixel, &texture->diamond.line_length, \
 		&texture->diamond.endian);
@@ -116,7 +124,6 @@ void	set_all_addr(t_texture *texture)
 	//faire tab de mouse et boucler
 	texture->dragon[0].id = 1;
 	texture->dragon[1].id = 1;
-	texture->mouse[0].id = 2;
 	texture->portail.id = 3;
 	texture->diamond.id = 3;
 	pos_temp[0] = 0;
@@ -153,11 +160,14 @@ void	replace_pixel(t_image *img, t_image *back, int pos[2])
 static void	put_all_sprit(t_data *data)
 {
 	data->texture.dragon[0].img = set_texture(set_path('E'), data);
-	data->texture.mouse[0].img = set_texture(set_path('M'), data);
+	data->texture.dragon[1].img = set_texture(set_path('E'), data);
 	data->texture.portail.img = set_texture(set_path('P'), data);
 	data->texture.diamond.img = set_texture(set_path('C'), data);
+	if (!data->texture.dragon[0].img || !data->texture.dragon[0].img \
+		|| !data->texture.dragon[0].img || !data->texture.dragon[0].img \
+		|| !data->texture.dragon[0].img)
+		exit_set_sprite(data);
 	set_all_addr(&data->texture);
 	put_all_block('E', data->texture.dragon[0].img, data);
-	put_all_block('P', data->texture.portail.img, data);
 	put_all_block('C', data->texture.diamond.img, data);
 }

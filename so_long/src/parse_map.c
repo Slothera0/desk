@@ -6,14 +6,13 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 04:45:27 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/08 04:41:01 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/15 10:38:40 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "libft.h"
 #include "mlx.h"
-#include "mlx_int.h"
 #include "get_next_line.h"
 
 static int	fill_map(char **map, char *map_adress);
@@ -28,12 +27,19 @@ char	**parse_map(char *map_name)
 	map_adress = ft_strjoin("./maps/", map_name);
 	nb_line = count_line_map(map_adress);
 	if (nb_line == 0)
-	 	error(); // free + message + ratio
+	{
+		free(map_adress);
+		error(NULL);
+	}
 	map = malloc(sizeof(char *) * (nb_line + 1));
 	if (!map)
-	 	error(); // free + message + ratio
+	 	error(NULL);
 	if (fill_map(map, map_adress))
-		error(); // free + message + ratio
+	{
+		free(map);
+		free(map_adress);
+		error(NULL);
+	}
 	free(map_adress);
 	return (map);	
 }
@@ -44,7 +50,7 @@ static int	count_line_map(char *map_adress)
 	int		count_line;
 	char	*str;
 
-	fd = open(map_adress, O_RDONLY);
+	fd = open(map_adress, O_RDONLY); // suppr cette fonction et remplacer a l'aide d'un tab dynamique
 	if (fd == -1)
 		return (0);
 	count_line = 0;
