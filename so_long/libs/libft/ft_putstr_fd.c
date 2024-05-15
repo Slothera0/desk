@@ -6,22 +6,27 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:59:40 by arvoyer           #+#    #+#             */
-/*   Updated: 2023/11/10 17:42:28 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:12:27 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstr_fd(char *s, int fd)
 {
 	size_t	i;
+	int		count;
 
+	count = 0;
 	if (!s)
-		return ;
+		return (-1);
 	i = 0;
 	while (s[i])
 	{
-		ft_putchar_fd(s[i], fd);
+		count += ft_putchar_fd(s[i], fd);
+		if (count < 0)
+			return (-1);
 		i++;
 	}
+	return (count);
 }

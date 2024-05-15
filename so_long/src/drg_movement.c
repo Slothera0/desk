@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 05:46:37 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/15 10:17:11 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:46:27 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,62 +16,71 @@
 
 int	move_dragon(t_data *data, int side)
 {
-	if (((data->map[POS_Y / BLOCK][POS_X / BLOCK + 1] == '1' \
-		|| data->map[(POS_Y + DRG_H - 1) / BLOCK][POS_X / BLOCK + 1] == '1') \
-		&& (side == RIGHT && POS_X % BLOCK > BLOCK - WALK - DRG_W)) \
-		|| ((data->map[POS_Y / BLOCK][POS_X / BLOCK - 1] == '1' \
-		|| data->map[(POS_Y + DRG_H - 1) / BLOCK][POS_X / BLOCK - 1] == '1') \
-		&& (side == LEFT && POS_X % BLOCK < WALK)))
+	if (((data->map[data->pos[1] / BLC][data->pos[0] / BLC + 1] == '1' \
+		|| data->map[(data->pos[1] + DRG_H - 1) / BLC] \
+		[data->pos[0] / BLC + 1] == '1') \
+		&& (side == RIGHT && data->pos[0] % BLC > BLC - WALK - DRG_W)) \
+		|| ((data->map[data->pos[1] / BLC][data->pos[0] / BLC - 1] == '1' \
+		|| data->map[(data->pos[1] + DRG_H - 1) / BLC] \
+		[data->pos[0] / BLC - 1] == '1') \
+		&& (side == LEFT && data->pos[0] % BLC < WALK)))
 		return (0);
+	data->pmv++;
 	clear_pos(data);
-	mlx_destroy_image(data->mlx, data->texture.dragon[TEXT_USE].img);
+	mlx_destroy_image(data->mlx, \
+		data->texture.dragon[(data->pmv + data->nmv) % 2].img);
 	if (side == RIGHT)
-	{
 		data->pos[0] += WALK;
+	if (side == RIGHT)
 		change_sprit_drg_right(data);
-	}
-	else
-	{
+	if (side == LEFT)
 		data->pos[0] -= WALK;
+	if (side == LEFT)
 		change_sprit_drg_left(data);
-	}
-	mlx_put_image_to_window(data->mlx, data->mlx_win, \
-		data->texture.dragon[TEXT_USE].img, POS_X, POS_Y);
+	print_move(data);
+	mlx_put_image_to_window(data->mlx, data->mlx_win, data->texture.dragon \
+		[(data->pmv + data->nmv) % 2].img, data->pos[0], data->pos[1]);
 	return (0);
 }
 
 int	fly_char(t_data *data)
 {
-	if ((data->map[POS_Y / BLOCK - 1][POS_X / BLOCK] == '1' \
-		|| data->map[POS_Y / BLOCK - 1][(POS_X + DRG_W - 1) \
-		/ BLOCK] == '1') && POS_Y % BLOCK < FLY)
+	if ((data->map[data->pos[1] / BLC - 1][data->pos[0] / BLC] == '1' \
+		|| data->map[data->pos[1] / BLC - 1][(data->pos[0] + DRG_W - 1) \
+		/ BLC] == '1') && data->pos[1] % BLC < FLY)
 		return (0);
+	data->pmv++;
 	clear_pos(data);
-	mlx_destroy_image(data->mlx, data->texture.dragon[TEXT_USE].img);
+	mlx_destroy_image(data->mlx, \
+		data->texture.dragon[(data->pmv + data->nmv) % 2].img);
 	data->pos[1] -= FLY;
 	change_sprit_drg_fly(data);
+	print_move(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, \
-		data->texture.dragon[TEXT_USE].img, POS_X, POS_Y);
+		data->texture.dragon[(data->pmv + data->nmv) % 2].img, \
+		data->pos[0], data->pos[1]);
 	return (0);
 }
 
 int	do_gravity(t_data *data)
 {
-	if ((data->map[POS_Y / BLOCK + 1][POS_X / BLOCK] == '1' \
-		|| data->map[POS_Y / BLOCK + 1][(POS_X + DRG_W - 1) \
-		/ BLOCK] == '1') && POS_Y % BLOCK == BLOCK - DRG_H)
+	if ((data->map[data->pos[1] / BLC + 1][data->pos[0] / BLC] == '1' \
+		|| data->map[data->pos[1] / BLC + 1][(data->pos[0] + DRG_W - 1) \
+		/ BLC] == '1') && data->pos[1] % BLC == BLC - DRG_H)
 		return (0);
 	clear_pos(data);
-	mlx_destroy_image(data->mlx, data->texture.dragon[TEXT_USE].img);
-	if ((data->map[(POS_Y) / BLOCK + 1][POS_X / BLOCK] == '1' \
-		|| data->map[POS_Y / BLOCK + 1][(POS_X + DRG_W) \
-		/ BLOCK] == '1') && (POS_Y + DRG_H) % BLOCK > BLOCK - WALK)
-		POS_Y += BLOCK - (POS_Y + DRG_H) % BLOCK;
+	mlx_destroy_image(data->mlx, \
+		data->texture.dragon[(data->pmv + data->nmv) % 2].img);
+	if ((data->map[(data->pos[1]) / BLC + 1][data->pos[0] / BLC] == '1' \
+		|| data->map[data->pos[1] / BLC + 1][(data->pos[0] + DRG_W) \
+		/ BLC] == '1') && (data->pos[1] + DRG_H) % BLC > BLC - WALK)
+		data->pos[1] += BLC - (data->pos[1] + DRG_H) % BLC;
 	else
 		data->pos[1] += WALK;
 	change_sprit_drg_gravity(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, \
-		data->texture.dragon[TEXT_USE].img, (POS_X), (POS_Y));
+		data->texture.dragon[(data->pmv + data->nmv) % 2].img, \
+		(data->pos[0]), (data->pos[1]));
 	return (0);
 }
 
@@ -79,23 +88,27 @@ void	clear_pos(t_data *data)
 {
 	claim_coin(data);
 	take_portail(data);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, BACK, (POS_X \
-		/ BLOCK) * BLOCK, (POS_Y / BLOCK) * BLOCK);
-	if ((POS_X / BLOCK) * BLOCK != ((POS_X + DRG_W) / BLOCK) * BLOCK)
+	mlx_put_image_to_window(data->mlx, data->mlx_win, \
+		data->texture.background.img, (data->pos[0] / BLC) * BLC, \
+		(data->pos[1] / BLC) * BLC);
+	if ((data->pos[0] / BLC) * BLC != ((data->pos[0] + DRG_W) / BLC) * BLC)
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, BACK, ((POS_X \
-			/ BLOCK) + 1) * BLOCK, (POS_Y / BLOCK) * BLOCK);
+		mlx_put_image_to_window(data->mlx, data->mlx_win, \
+			data->texture.background.img, ((data->pos[0] / BLC) + 1) * BLC, \
+			(data->pos[1] / BLC) * BLC);
 	}
-	if (POS_Y / BLOCK * BLOCK != (POS_Y + DRG_H - 1) / BLOCK * BLOCK)
+	if (data->pos[1] / BLC * BLC != (data->pos[1] + DRG_H - 1) / BLC * BLC)
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, BACK, (POS_X \
-			/ BLOCK) * BLOCK, (POS_Y / BLOCK + 1) * BLOCK);
+		mlx_put_image_to_window(data->mlx, data->mlx_win, \
+			data->texture.background.img, (data->pos[0] / BLC) * BLC, \
+			(data->pos[1] / BLC + 1) * BLC);
 	}
-	if (POS_X / BLOCK * BLOCK != (POS_X + DRG_W) / BLOCK * BLOCK \
-		&& POS_Y / BLOCK * BLOCK \
-		!= (POS_Y + DRG_H - 1) / BLOCK * BLOCK)
+	if (data->pos[0] / BLC * BLC != (data->pos[0] + DRG_W) / BLC * BLC \
+		&& data->pos[1] / BLC * BLC \
+		!= (data->pos[1] + DRG_H - 1) / BLC * BLC)
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, BACK, (POS_X \
-			/ BLOCK + 1) * BLOCK, (POS_Y / BLOCK + 1) * BLOCK);
+		mlx_put_image_to_window(data->mlx, data->mlx_win, \
+			data->texture.background.img, (data->pos[0] / BLC + 1) * BLC, \
+			(data->pos[1] / BLC + 1) * BLC);
 	}
 }

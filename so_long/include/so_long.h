@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 17:24:19 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/16 18:31:23 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:47:20 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,16 @@
 # include <fcntl.h>
 # include <X11/keysym.h>
 
-# define BLOCK 128
+# define BLC 128
 # define WALK 16
 # define FLY 64
 # define GREEN 2030152
 # define DRG_H 68
 # define DRG_W 124
-# define MOUSE_H 32
-# define MOUSE_W 18
 # define LEFT 2
 # define RIGHT 1
-# define TEXT_USE (data->player_move + (data->natural_move) / 30) % 2
-# define BACK data->texture.background.img
-# define POS_X data->pos[0]
-# define POS_Y data->pos[1]
-# define MOUSE data->mouse
-# define MWALK 4
-# define MPOS_X mouse->pos[0]
-# define MPOS_Y mouse->pos[1]
 
-typedef struct	s_image 
+typedef struct s_image
 {
 	void	*img;
 	char	*addr;
@@ -45,15 +35,6 @@ typedef struct	s_image
 	int		endian;
 	int		id;
 }	t_image;
-
-typedef struct s_mouse
-{
-	t_image	mouse[2];
-	int		look;
-	char	move_side[2];
-	int		pos[2];
-}	t_mouse;
-
 
 typedef struct s_texture
 {
@@ -70,14 +51,12 @@ typedef struct s_data
 	void		*mlx_win;
 	char		**map;
 	t_texture	texture;
-	t_mouse		*mouse;
-	int			player_move;
-	int			natural_move;
+	int			pmv;
+	int			nmv;
 	int			total_coin;
 	int			pos[2];
 	int			drg_look;
 	char		drg_move_side[2];
-	int			mouse_nbr;
 	int			do_movement;
 	int			bool_portail;
 }	t_data;
@@ -88,7 +67,6 @@ int		start_game(t_data *data);
 int		move_dragon(t_data *data, int side);
 int		fly_char(t_data *data);
 int		do_gravity(t_data *data);
-int		move_mouse(t_data *data, int i); // passer en static
 void	error(char **map);
 void	replace_pixel(t_image *img, t_image *back, int pos[2]);
 void	change_sprit_drg_left(t_data *data);
@@ -103,8 +81,7 @@ void	take_portail(t_data *data);
 int		test_map(char **map);
 void	exit_during_game(t_data *data);
 void	exit_set_sprite(t_data *data);
-void	init_mouse(t_data *data);
-void	mouse_error();
-int		mouse_movement(t_data *data);
+void	set_all_addr(t_texture *texture);
+int		print_move(t_data *data);
 
 #endif

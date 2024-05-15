@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:42:18 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/03/16 11:26:12 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:37:49 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	test_map(char **map)
 
 static void	test_map_r(char **map, int i, int j)
 {
-	if (map[i][j] == '0')	
+	if (map[i][j] == '0')
 		map[i][j] = 'o';
 	else if (map[i][j] == 'C')
 		map[i][j] = 'c';
@@ -41,6 +41,8 @@ static void	test_map_r(char **map, int i, int j)
 		map[i][j] = 'e';
 	else if (map[i][j] == 'P')
 		map[i][j] = 'p';
+	else
+		error(map);
 	if (map[i + 1] && (map[i + 1][j] == '0' || map[i + 1][j] == 'C' \
 		|| map[i + 1][j] == 'E' || map[i + 1][j] == 'P'))
 		test_map_r(map, i + 1, j);
@@ -125,7 +127,7 @@ static void	set_pos(char **map, int pos[2])
 			if (map[i][j] == 'E' && pos[0] != -1)
 			{
 				pos[0] = -1;
-				return ;				
+				return ;
 			}
 			else if (map[i][j] == 'E')
 			{

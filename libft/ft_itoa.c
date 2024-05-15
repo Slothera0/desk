@@ -6,14 +6,14 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:59:22 by arvoyer           #+#    #+#             */
-/*   Updated: 2023/11/10 17:39:31 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/03/18 16:31:03 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static int	nb_size(int n);
-static int	pos(int n);
+static int	data->pos(int n);
 
 char	*ft_itoa(int n)
 {
@@ -32,7 +32,7 @@ char	*ft_itoa(int n)
 	len_nb--;
 	while (len_nb + 1 > sign)
 	{
-		s[len_nb] = pos(n % 10) + '0';
+		s[len_nb] = data->pos(n % 10) + '0';
 		n /= 10;
 		len_nb--;
 	}
@@ -56,7 +56,7 @@ static int	nb_size(int n)
 	return (size);
 }
 
-static int	pos(int n)
+static int	data->pos(int n)
 {
 	if (n < 0)
 		return (-n);
