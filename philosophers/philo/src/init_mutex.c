@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:19:16 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/06/11 15:55:58 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/06/14 14:44:07 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	destroy_mutex(t_lock *tab, int size);
 
 void	init_mutex(t_lock **fork, t_lock **mutex_g, int size)
 {
-	*mutex_g = NULL;
-	*fork = init_fork(size);
+	(*mutex_g) = NULL;
+	(*fork) = init_fork(size);
 	if (!(*fork))
 		return ;
-	*mutex_g = init_mutex_g();
+	(*mutex_g) = init_mutex_g();
 	if (!(*mutex_g))
 	{
 		destroy_mutex(*fork, size);
 		free(*fork);
-		*fork = NULL;
+		(*fork) = NULL;
 	}
 }
 
@@ -43,7 +43,7 @@ t_lock	*init_fork(int size)
 	i = 0;
 	while (i < size)
 	{
-		if (pthread_mutex_init(&((fork)[i].mutex), NULL) != 0)
+		if (pthread_mutex_init(&(fork[i].mutex), NULL) != 0)
 		{
 			destroy_mutex(fork, i);
 			free(fork);

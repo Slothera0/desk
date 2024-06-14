@@ -6,7 +6,7 @@
 /*   By: arvoyer <arvoyer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:42:36 by arvoyer           #+#    #+#             */
-/*   Updated: 2024/06/11 15:56:48 by arvoyer          ###   ########.fr       */
+/*   Updated: 2024/06/14 14:47:25 by arvoyer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	take_one_fork(t_lock *fork, t_philo *philo)
 	if (fork->status == TRUE)
 	{
 		taken++;
-		philo->l_fork->status = FALSE;
+		fork->status = FALSE;
 		pthread_mutex_lock(&(philo->print->mutex));
 		if (stop_test(philo->stop))
 			printf("%zu %zu has taken a fork\n", \
